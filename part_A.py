@@ -7,7 +7,7 @@ import requests
 import os
 
 from dotenv import load_dotenv
-load_dotenv('./.env')
+load_dotenv()
 
 #uri connects you to  mongodb atlas
 uri = os.environ['MONGODBURI']
@@ -24,8 +24,9 @@ try:
 except Exception as e:
     print(e)
 
+
 #creating a new database if does not already exists
-mydb = client["teachdatabase"]
+mydb = client["Tailnodedatabase"]
 
 #creating collections 
 mycol = mydb["user"]
@@ -37,9 +38,9 @@ print(mydb.list_collection_names())
 # Helper functions
 def fetch_users(limit):
     url = f'https://dummyapi.io/data/v1/user?limit={limit}'
-    heads = {'app-id': "6514368d64575f79d6403775"}  
+    headers = {'app-id': "6514368d64575f79d6403775"}  
 
-    response = requests.get(url, heads=heads)
+    response = requests.get(url, headers=headers)
     users_data = response.json().get('data')
     
     return users_data
@@ -48,10 +49,10 @@ def fetch_users(limit):
 def fetch_posts(user_id):
 
     url = 'https://dummyapi.io/data/v1/user/{}/post'
-    heads = {'app-id': '6514368d64575f79d6403775'}  
+    headers = {'app-id': '6514368d64575f79d6403775'}  
 
    
-    response = requests.get(url.format(user_id), heads=heads)
+    response = requests.get(url.format(user_id), headers=headers)
     posts_data = response.json().get('data')
     x = myposts.insert_many(posts_data)
     
@@ -61,12 +62,12 @@ def insert_users(number):
     # inserting users
     mylist=fetch_users(number) 
     x = mycol.insert_many(mylist)
-    print("\nUsers Created !!!!\n\n")
+    print("\nUsers Created successfully ......\n\n")
 
 def upload_posts():
     for x in mycol.find({},{"_id":0,"id":1}):
         fetch_posts(x['id'])
-    print("\nPosts Uploaded !!!!\n\n")
+    print("\nPosts Uploaded successfully ......\n\n")
 
 # Min Program Starts
 while True:

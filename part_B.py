@@ -8,7 +8,7 @@ from pymongo.server_api import ServerApi
 
 
 from dotenv import load_dotenv
-load_dotenv('./.env')
+load_dotenv()
 
 #uri connects you to  mongodb atlas
 uri = os.environ['MONGODBURI']
@@ -22,7 +22,7 @@ except Exception as e:
     print(e)
 
 #creating a new database if does not already exists
-mydb = client["teachdatabase"]
+mydb = client["Tailnodedatabase"]
 #creating collections 
 mybooks = mydb["books"]
 
